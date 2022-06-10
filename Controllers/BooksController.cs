@@ -1,5 +1,7 @@
 using AutoMapper;
 using LMA_backend.Data;
+using LMA_backend.Dtos;
+using LMA_backend.ExtensionMethods;
 using LMA_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,17 +19,25 @@ namespace LMA_backend.Controllers
             _bookRepository = bookRepository;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public ActionResult<IEnumerable<Book>> GetBooks()
         {
-            return Ok(_bookRepository.GetBooks());
+            var books = _bookRepository.GetBooks().ToBookWithIdDto();
+            return Ok(_mapper.Map<IEnumerable<BookWithIdDto>>(books));
         }
-        
+
         [HttpGet("{bookId}", Name = "Get book by id")]
-        public ActionResult<Book> GetBookById()
+        public ActionResult<Book> GetBookById(int bookId)
         {
-            return Problem(statusCode: 503, detail: "Not implemented yet");
+            var book = _bookRepository.GetBookById(bookId)?.ToBookDto();
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<BookDto>(book));
         }
 
         [HttpPost]
