@@ -21,7 +21,7 @@ public class BookRepository : IBookRepository
         return _lmaContext.Books.ToList();
     }
 
-    public Book GetBookById(int id)
+    public Book? GetBookById(int id)
     {
         return _lmaContext.Books.FirstOrDefault(book => book.BookId == id);
     }
