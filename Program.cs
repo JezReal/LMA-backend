@@ -1,5 +1,6 @@
 using LMA_backend.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,15 @@ builder.Services.AddDbContext<LmaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("LMAPostgresConnection"));
 });
 
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new DefaultContractResolver
+    {
+        NamingStrategy = new SnakeCaseNamingStrategy()
+    };
+});
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IBookRepository, MockBookRepository>();
 
 var app = builder.Build();
 
