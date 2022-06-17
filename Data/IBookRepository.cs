@@ -6,9 +6,9 @@ public interface IBookRepository
 {
     bool SaveChanges();
 
-    IEnumerable<Book> GetBooks();
-    Book? GetBookById(int id);
-    void AddBook(Book book);
-    void UpdateBook(Book book);
-    void DeleteBook(Book book);
+    Task<IEnumerable<Book>> GetBooks();
+    Task<Book?> GetBookById(int id);
+    Task AddBook(Book book);
+    Task UpdateBook(Book book);
+    Task DeleteBook(Book book);
 }
