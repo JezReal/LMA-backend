@@ -23,7 +23,7 @@ public class BookService : IBookService
         return _mapper.Map<IEnumerable<BookDto>>(books);
     }
 
-    public async Task<BookDto?> GetBookById(int bookId)
+    public async Task<GetBookDto?> GetBookById(int bookId)
     {
         var book = await _bookRepository.GetBookById(bookId);
 
@@ -32,7 +32,7 @@ public class BookService : IBookService
             return null;
         }
 
-        return _mapper.Map<BookDto>(book);
+        return _mapper.Map<GetBookDto>(book);
     }
 
     public async Task<BookDto> AddBook(Book book)

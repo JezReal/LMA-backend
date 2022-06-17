@@ -27,7 +27,7 @@ namespace LMA_backend.Controllers
         }
 
         [HttpGet("{bookId}", Name = "GetBookById")]
-        public async Task<ActionResult<BookDto>> GetBookById(int bookId)
+        public async Task<ActionResult<GetBookDto>> GetBookById(int bookId)
         {
             var book = await _bookService.GetBookById(bookId);
 
