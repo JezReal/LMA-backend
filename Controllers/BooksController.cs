@@ -23,7 +23,7 @@ namespace LMA_backend.Controllers
         public async Task<ActionResult<List<Book>>> GetBooks()
         {
             var books = await _bookRepository.GetBooks();
-            return Ok(_mapper.Map<IEnumerable<BookWithIdDto>>(books));
+            return Ok(_mapper.Map<IEnumerable<BookDto>>(books));
         }
 
         [HttpGet("{bookId}", Name = "GetBookById")]
@@ -40,13 +40,13 @@ namespace LMA_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookWithIdDto>> AddBook(AddBookDto addBookDto)
+        public async Task<ActionResult<BookDto>> AddBook(AddBookDto addBookDto)
         {
             var bookRequest = _mapper.Map<Book>(addBookDto);
 
             await _bookRepository.AddBook(bookRequest);
 
-            var bookDto = _mapper.Map<BookWithIdDto>(bookRequest);
+            var bookDto = _mapper.Map<BookDto>(bookRequest);
             return CreatedAtRoute(nameof(GetBookById), new { bookId = bookDto.BookId }, bookDto);
         }
 

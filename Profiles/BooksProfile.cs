@@ -8,7 +8,7 @@ public class BooksProfile : Profile
 {
     public BooksProfile()
     {
-        CreateMap<Book, BookWithIdDto>()
+        CreateMap<Book, BookDto>()
             .ForMember(destinationMember =>
                 destinationMember.Author,
                 options => options.MapFrom(sourceMember => $"{sourceMember.AuthorLastName}, {sourceMember.AuthorFirstName}")
