@@ -9,35 +9,44 @@ public class MockBookRepository : IBookRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Book> GetBooks()
+    public async Task<IEnumerable<Book>> GetBooks()
     {
-        return new List<Book>
+        return await Task.Run(() =>
         {
-            new Book {BookId = 1, Title = "Title one", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"},
-            new Book {BookId = 2, Title = "Title two", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"},
-            new Book {BookId = 3, Title = "Title three", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"}
-        };
+            return new List<Book>
+            {
+                new Book {BookId = 1, Title = "Title one", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"},
+                new Book {BookId = 2, Title = "Title two", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"},
+                new Book {BookId = 3, Title = "Title three", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"}
+            };
+        });
     }
 
-    public Book GetBookById(int id)
+    public async Task<Book?> GetBookById(int id)
     {
-        return new Book
+        return await Task.Run(() =>
         {
-            BookId = 1, Title = "Title one", AuthorFirstName = "Jezreel", AuthorLastName = "Martin"
-        };
+            return new Book
+            {
+                BookId = 1,
+                Title = "Title one",
+                AuthorFirstName = "Jezreel",
+                AuthorLastName = "Martin"
+            };
+        });
     }
 
-    public void AddBook(Book book)
+    public Task AddBook(Book book)
     {
         throw new NotImplementedException();
     }
 
-    public void UpdateBook(Book book)
+    public Task UpdateBook(Book book)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteBook(Book book)
+    public Task DeleteBook(Book book)
     {
         throw new NotImplementedException();
     }
