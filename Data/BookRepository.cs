@@ -1,4 +1,5 @@
 ﻿using LMA_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMA_backend.Data;
 
@@ -16,32 +17,35 @@ public class BookRepository : IBookRepository
         return _lmaContext.SaveChanges() >= 0;
     }
 
-    public IEnumerable<Book> GetBooks()
+    public async Task<IEnumerable<Book>> GetBooks()
     {
-        return _lmaContext.Books.ToList();
+        return await _lmaContext.Books.ToListAsync();
     }
 
-    public Book? GetBookById(int id)
+    public async Task<Book?> GetBookById(int id)
     {
-        return _lmaContext.Books.FirstOrDefault(book => book.BookId == id);
+        return await _lmaContext.Books.FirstOrDefaultAsync(book => book.BookId == id);
     }
 
-    public void AddBook(Book book)
+    public async Task AddBook(Book book)
     {
+        Console.WriteLine($"Title: {book.Title}");
+        Console.WriteLine($"Author: {book.AuthorLastName}, {book.AuthorFirstName}");
         if (book == null)
         {
             throw new ArgumentNullException(nameof(book));
         }
 
         _lmaContext.Books.Add(book);
+        await _lmaContext.SaveChangesAsync(); 
     }
 
-    public void UpdateBook(Book book)
+    public Task UpdateBook(Book book)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteBook(Book book)
+    public async Task DeleteBook(Book book)
     {
         if (book == null)
         {
@@ -49,5 +53,6 @@ public class BookRepository : IBookRepository
         }
 
         _lmaContext.Books.Remove(book);
+        await _lmaContext.SaveChangesAsync();
     }
 }
