@@ -2,6 +2,7 @@ using AutoMapper;
 using LMA_backend.Data;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
+using LMA_backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMA_backend.Controllers
@@ -10,43 +11,40 @@ namespace LMA_backend.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IBookService _bookService;
         private readonly IMapper _mapper;
 
-        public BooksController(IBookRepository bookRepository, IMapper mapper)
+        public BooksController(IBookService bookService, IMapper mapper)
         {
-            _bookRepository = bookRepository;
+            _bookService = bookService;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Book>>> GetBooks()
+        public async Task<ActionResult<List<BookDto>>> GetBooks()
         {
-            var books = await _bookRepository.GetBooks();
-            return Ok(_mapper.Map<IEnumerable<BookDto>>(books));
+            return Ok(await _bookService.GetBooks());
         }
 
         [HttpGet("{bookId}", Name = "GetBookById")]
-        public async Task<ActionResult<Book>> GetBookById(int bookId)
+        public async Task<ActionResult<BookDto>> GetBookById(int bookId)
         {
-            var book = await _bookRepository.GetBookById(bookId);
+            var book = await _bookService.GetBookById(bookId);
 
             if (book == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<GetBookDto>(book));
+            return Ok(book);
         }
 
         [HttpPost]
         public async Task<ActionResult<BookDto>> AddBook(AddBookDto addBookDto)
         {
             var bookRequest = _mapper.Map<Book>(addBookDto);
+            var bookDto = await _bookService.AddBook(bookRequest);
 
-            await _bookRepository.AddBook(bookRequest);
-
-            var bookDto = _mapper.Map<BookDto>(bookRequest);
             return CreatedAtRoute(nameof(GetBookById), new { bookId = bookDto.BookId }, bookDto);
         }
 
