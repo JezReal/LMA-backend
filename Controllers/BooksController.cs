@@ -1,7 +1,6 @@
 using AutoMapper;
 using LMA_backend.Data;
 using LMA_backend.Dtos;
-using LMA_backend.ExtensionMethods;
 using LMA_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,29 +20,34 @@ namespace LMA_backend.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Book>> GetBooks()
+        public async Task<ActionResult<List<Book>>> GetBooks()
         {
-            var books = _bookRepository.GetBooks().ToBookWithIdDto();
+            var books = await _bookRepository.GetBooks();
             return Ok(_mapper.Map<IEnumerable<BookWithIdDto>>(books));
         }
 
-        [HttpGet("{bookId}", Name = "Get book by id")]
-        public ActionResult<Book> GetBookById(int bookId)
+        [HttpGet("{bookId}", Name = "GetBookById")]
+        public async Task<ActionResult<Book>> GetBookById(int bookId)
         {
-            var book = _bookRepository.GetBookById(bookId)?.ToBookDto();
+            var book = await _bookRepository.GetBookById(bookId);
 
             if (book == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<BookDto>(book));
+            return Ok(_mapper.Map<GetBookDto>(book));
         }
 
         [HttpPost]
-        public ActionResult<Book> AddBook()
+        public async Task<ActionResult<BookWithIdDto>> AddBook(AddBookDto addBookDto)
         {
-            return Problem(statusCode: 503, detail: "Not implemented yet");
+            var bookRequest = _mapper.Map<Book>(addBookDto);
+
+            await _bookRepository.AddBook(bookRequest);
+
+            var bookDto = _mapper.Map<BookWithIdDto>(bookRequest);
+            return CreatedAtRoute(nameof(GetBookById), new { bookId = bookDto.BookId }, bookDto);
         }
 
         [HttpPut("{bookId}")]
