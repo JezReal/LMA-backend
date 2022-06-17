@@ -25,8 +25,9 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
         NamingStrategy = new SnakeCaseNamingStrategy()
     };
 });
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IBookRepository, MockBookRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
