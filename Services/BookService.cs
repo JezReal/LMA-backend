@@ -1,4 +1,5 @@
 using AutoMapper;
+using Lma_backend.Dtos;
 using LMA_backend.Data;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
@@ -42,9 +43,11 @@ public class BookService : IBookService
         return _mapper.Map<Book>(addBookRequest);
     }
 
-    public Task UpdateBook(Book bookRequest)
+    public async Task UpdateBook(long bookId, UpdateBookDto updateBookDto)
     {
-        throw new NotImplementedException();
+        var updateBookRequest = _mapper.Map<Book>(updateBookDto);
+
+        await _bookRepository.UpdateBook(bookId, updateBookRequest);
     }
 
     public Task DeleteBook(Book bookRequest)

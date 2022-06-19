@@ -1,4 +1,4 @@
-using LMA_backend.Models;
+﻿using LMA_backend.Models;
 
 namespace LMA_backend.Data;
 
@@ -41,7 +41,7 @@ public class MockBookRepository : IBookRepository
         throw new NotImplementedException();
     }
 
-    public Task UpdateBook(Book book)
+    public Task UpdateBook(long bookId, Book book)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Lma_backend.Dtos;
 using LMA_backend.Data;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
@@ -50,9 +51,11 @@ namespace LMA_backend.Controllers
         }
 
         [HttpPut("{bookId}")]
-        public ActionResult UpdateBook()
+        public async Task<ActionResult> UpdateBook(long bookId, UpdateBookDto updateBookDto)
         {
-            return Problem(statusCode: 503, detail: "Not implemented yet");
+            await _bookService.UpdateBook(bookId, updateBookDto);
+
+            return Ok();
         }
 
         [HttpDelete("{bookId}")]
