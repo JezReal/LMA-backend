@@ -1,6 +1,6 @@
 ﻿namespace LMA_backend.Dtos;
 
-public class BookDto
+public class GetBookWithIdDto
 {
     public int BookId { get; set; }
     public string BookTitle { get; set; }
