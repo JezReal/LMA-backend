@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
 
@@ -8,7 +8,7 @@ public class BooksProfile : Profile
 {
     public BooksProfile()
     {
-        CreateMap<Book, BookDto>()
+        CreateMap<Book, GetBookWithIdDto>()
             .ForMember(destinationMember =>
                 destinationMember.Author,
                 options => options.MapFrom(sourceMember => $"{sourceMember.AuthorLastName}, {sourceMember.AuthorFirstName}")
