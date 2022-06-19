@@ -1,4 +1,4 @@
-﻿using LMA_backend.Models;
+using LMA_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMA_backend.Data;
@@ -22,7 +22,7 @@ public class BookRepository : IBookRepository
         return await _lmaContext.Books.ToListAsync();
     }
 
-    public async Task<Book?> GetBookById(int id)
+    public async Task<Book?> GetBookById(long id)
     {
         return await _lmaContext.Books.FirstOrDefaultAsync(book => book.BookId == id);
     }

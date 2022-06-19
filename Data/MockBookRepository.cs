@@ -1,4 +1,4 @@
-﻿using LMA_backend.Models;
+using LMA_backend.Models;
 
 namespace LMA_backend.Data;
 
@@ -22,7 +22,7 @@ public class MockBookRepository : IBookRepository
         });
     }
 
-    public async Task<Book?> GetBookById(int id)
+    public async Task<Book?> GetBookById(long id)
     {
         return await Task.Run(() =>
         {
