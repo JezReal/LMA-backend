@@ -21,13 +21,14 @@ namespace LMA_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BookDto>>> GetBooks()
+        public async Task<ActionResult<List<GetBookWithIdDto>>> GetBooks()
         {
-            return Ok(await _bookService.GetBooks());
+            var books = await _bookService.GetBooks();
+            return Ok(_mapper.Map<IEnumerable<GetBookDto>>(books));
         }
 
         [HttpGet("{bookId}", Name = "GetBookById")]
-        public async Task<ActionResult<GetBookDto>> GetBookById(int bookId)
+        public async Task<ActionResult<GetBookDto>> GetBookById(long bookId)
         {
             var book = await _bookService.GetBookById(bookId);
 
@@ -36,14 +37,14 @@ namespace LMA_backend.Controllers
                 return NotFound();
             }
 
-            return Ok(book);
+            return Ok(_mapper.Map<GetBookDto>(book));
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookDto>> AddBook(AddBookDto addBookDto)
+        public async Task<ActionResult<GetBookWithIdDto>> AddBook(AddBookDto addBookDto)
         {
-            var bookRequest = _mapper.Map<Book>(addBookDto);
-            var bookDto = await _bookService.AddBook(bookRequest);
+            var bookRequest = await _bookService.AddBook(addBookDto);
+            var bookDto = _mapper.Map<Book>(bookRequest);
 
             return CreatedAtRoute(nameof(GetBookById), new { bookId = bookDto.BookId }, bookDto);
         }

@@ -16,14 +16,12 @@ public class BookService : IBookService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<BookDto>> GetBooks()
+    public async Task<IEnumerable<Book>> GetBooks()
     {
-        var books = await _bookRepository.GetBooks();
-
-        return _mapper.Map<IEnumerable<BookDto>>(books);
+        return await _bookRepository.GetBooks();
     }
 
-    public async Task<GetBookDto?> GetBookById(int bookId)
+    public async Task<Book?> GetBookById(long bookId)
     {
         var book = await _bookRepository.GetBookById(bookId);
 
@@ -32,16 +30,16 @@ public class BookService : IBookService
             return null;
         }
 
-        return _mapper.Map<GetBookDto>(book);
+        return book;
     }
 
-    public async Task<BookDto> AddBook(Book book)
+    public async Task<Book> AddBook(AddBookDto addBookDto)
     {
-        var bookRequest = _mapper.Map<Book>(book);
+        var addBookRequest = _mapper.Map<Book>(addBookDto);
 
-        await _bookRepository.AddBook(bookRequest);
+        await _bookRepository.AddBook(addBookRequest);
 
-        return _mapper.Map<BookDto>(bookRequest);
+        return _mapper.Map<Book>(addBookRequest);
     }
 
     public Task UpdateBook(Book bookRequest)
