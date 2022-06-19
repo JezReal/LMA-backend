@@ -2,6 +2,6 @@
 
 public class GetBookDto
 {
-    public string Title { get; set; }
-    public string Author { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Author { get; set; } = string.Empty;
 }

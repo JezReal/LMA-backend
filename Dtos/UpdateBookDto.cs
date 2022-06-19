@@ -6,9 +6,9 @@ public class UpdateBookDto
 {
     [Required]
     [MaxLength(250)]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     [Required]
-    public string AuthorFirstName { get; set; }
+    public string AuthorFirstName { get; set; } = string.Empty;
     [Required]
-    public string AuthorLastName { get; set; }
+    public string AuthorLastName { get; set; } = string.Empty;
 }
