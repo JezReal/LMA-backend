@@ -1,4 +1,5 @@
-using AutoMapper;
+﻿using AutoMapper;
+using Lma_backend.Dtos;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
 
@@ -25,5 +26,6 @@ public class BooksProfile : Profile
             );
 
         CreateMap<AddBookDto, Book>();
+        CreateMap<UpdateBookDto, Book>();
     }
 }
