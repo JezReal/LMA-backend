@@ -42,11 +42,7 @@ public class BookRepository : IBookRepository
 
     public async Task UpdateBook(long bookId, Book book)
     {
-        var bookModel = await _lmaContext.Books.FirstOrDefaultAsync(book => book.BookId == bookId);
-
-        if (bookModel == null) {
-            return;
-        }
+        var bookModel = await _lmaContext.Books.FirstAsync(book => book.BookId == bookId);
 
         bookModel.Title = book.Title;
         bookModel.AuthorFirstName = book.AuthorFirstName;
