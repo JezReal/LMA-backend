@@ -6,7 +6,7 @@ public class Book
 {
     [Key]
     [Required]
-    public int BookId { get; set; }
+    public long BookId { get; set; }
 
     [Required]
     public string Title { get; set; } = string.Empty;
