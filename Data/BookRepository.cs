@@ -54,11 +54,6 @@ public class BookRepository : IBookRepository
 
     public async Task DeleteBook(Book book)
     {
-        if (book == null)
-        {
-            throw new ArgumentNullException(nameof(book));
-        }
-
         _lmaContext.Books.Remove(book);
         await _lmaContext.SaveChangesAsync();
     }

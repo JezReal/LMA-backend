@@ -56,8 +56,14 @@ public class BookService : IBookService
         await _bookRepository.UpdateBook(bookId, updateBookRequest);
     }
 
-    public Task DeleteBook(Book bookRequest)
+    public async Task DeleteBook(long bookId)
     {
-        throw new NotImplementedException();
+        var bookModel = await _bookRepository.GetBookById(bookId);
+
+        if (bookModel == null) {
+            return;
+        }
+
+        await _bookRepository.DeleteBook(bookModel);
     }
 }

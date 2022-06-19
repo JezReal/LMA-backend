@@ -59,9 +59,11 @@ namespace LMA_backend.Controllers
         }
 
         [HttpDelete("{bookId}")]
-        public ActionResult DeleteBook()
+        public async Task<ActionResult> DeleteBook(long bookId)
         {
-            return Problem(statusCode: 503, detail: "Not implemented yet");
+            await _bookService.DeleteBook(bookId);
+
+            return Ok();
         }
     }
 }

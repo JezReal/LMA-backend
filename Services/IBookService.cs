@@ -10,5 +10,5 @@ public interface IBookService
     Task<Book?> GetBookById(long bookId);
     Task<Book> AddBook(AddBookDto addBookDto);
     Task UpdateBook(long bookId, UpdateBookDto bookRequest);
-    Task DeleteBook(Book bookRequest);
+    Task DeleteBook(long bookId);
 }
