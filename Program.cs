@@ -1,6 +1,9 @@
+using System.Net;
+using Lma_backend.Exceptions;
 using LMA_backend.Data;
 using LMA_backend.Services;
 using LMA_Backend.Services;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 
@@ -40,6 +43,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        if (error is ResourceNotFoundException)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                Message = error.Message
+            });
+        };
+    });
+});
 
 app.UseHttpsRedirection();
 

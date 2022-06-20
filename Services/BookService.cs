@@ -1,5 +1,6 @@
 using AutoMapper;
 using Lma_backend.Dtos;
+using Lma_backend.Exceptions;
 using LMA_backend.Data;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
@@ -28,7 +29,7 @@ public class BookService : IBookService
 
         if (book == null)
         {
-            return null;
+            throw new ResourceNotFoundException("Book not found");
         }
 
         return book;
@@ -48,7 +49,7 @@ public class BookService : IBookService
         var bookModel = await _bookRepository.GetBookById(bookId);
 
         if (bookModel == null) {
-            return;
+            throw new ResourceNotFoundException("Book not found");
         }
 
         var updateBookRequest = _mapper.Map<Book>(updateBookDto);
@@ -61,7 +62,7 @@ public class BookService : IBookService
         var bookModel = await _bookRepository.GetBookById(bookId);
 
         if (bookModel == null) {
-            return;
+           throw new ResourceNotFoundException("Book not found");
         }
 
         await _bookRepository.DeleteBook(bookModel);

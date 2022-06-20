@@ -1,6 +1,5 @@
 using AutoMapper;
 using Lma_backend.Dtos;
-using LMA_backend.Data;
 using LMA_backend.Dtos;
 using LMA_backend.Models;
 using LMA_backend.Services;
@@ -32,11 +31,6 @@ namespace LMA_backend.Controllers
         public async Task<ActionResult<GetBookDto>> GetBookById(long bookId)
         {
             var book = await _bookService.GetBookById(bookId);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
 
             return Ok(_mapper.Map<GetBookDto>(book));
         }
