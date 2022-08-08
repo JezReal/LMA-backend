@@ -20,7 +20,8 @@ AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
 builder.Services.AddDbContext<LmaContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("LMAPostgresConnection"));
+    var connectionString = builder.Configuration.GetConnectionString("LMAConnection");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
