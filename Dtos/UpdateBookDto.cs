@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Lma_backend.Dtos;
+namespace LMA_backend.Dtos;
 
 public class UpdateBookDto
 {

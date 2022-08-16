@@ -1,4 +1,4 @@
-namespace Lma_backend.Exceptions;
+namespace LMA_backend.Exceptions;
 
 public class ResourceNotFoundException : Exception
 {

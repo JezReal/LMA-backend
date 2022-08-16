@@ -1,8 +1,7 @@
 using System.Net;
-using Lma_backend.Exceptions;
+using LMA_backend.Exceptions;
 using LMA_backend.Data;
 using LMA_backend.Services;
-using LMA_Backend.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
