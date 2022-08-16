@@ -10,4 +10,5 @@ public class LmaContext : DbContext
     }
 
     public DbSet<Book> Books { get; set; }
+    public DbSet<Credential> Credentials { get; set; }
 }
