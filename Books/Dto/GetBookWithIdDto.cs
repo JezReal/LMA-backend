@@ -1,4 +1,4 @@
-﻿namespace LMA_backend.Dtos;
+﻿namespace LMA_backend.Books.Dtos;
 
 public class GetBookWithIdDto
 {

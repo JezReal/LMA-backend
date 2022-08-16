@@ -1,11 +1,10 @@
 using AutoMapper;
 using LMA_backend.Exceptions;
-using LMA_backend.Data;
-using LMA_backend.Dtos;
 using LMA_backend.Models;
-using LMA_backend.Services;
+using LMA_backend.Books.Repositories;
+using LMA_backend.Books.Dtos;
 
-namespace LMA_backend.Services;
+namespace LMA_backend.Books.Services;
 public class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;

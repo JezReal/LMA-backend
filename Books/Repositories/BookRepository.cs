@@ -1,7 +1,8 @@
-﻿using LMA_backend.Models;
+﻿using LMA_backend.Data;
+using LMA_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LMA_backend.Data;
+namespace LMA_backend.Books.Repositories;
 
 public class BookRepository : IBookRepository
 {

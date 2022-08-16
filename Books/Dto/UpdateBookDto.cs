@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace LMA_backend.Dtos;
+namespace LMA_backend.Books.Dtos;
 
-public class AddBookDto
+public class UpdateBookDto
 {
     [Required]
     [MaxLength(250)]

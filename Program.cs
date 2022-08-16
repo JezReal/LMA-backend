@@ -1,10 +1,11 @@
 using System.Net;
 using LMA_backend.Exceptions;
 using LMA_backend.Data;
-using LMA_backend.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using LMA_backend.Books.Repositories;
+using LMA_backend.Books.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

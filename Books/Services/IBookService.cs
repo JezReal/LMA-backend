@@ -1,7 +1,7 @@
-using LMA_backend.Dtos;
+using LMA_backend.Books.Dtos;
 using LMA_backend.Models;
 
-namespace LMA_backend.Services;
+namespace LMA_backend.Books.Services;
 
 public interface IBookService
 {

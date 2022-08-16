@@ -1,6 +1,6 @@
 ﻿using LMA_backend.Models;
 
-namespace LMA_backend.Data;
+namespace LMA_backend.Books.Repositories;
 
 public class MockBookRepository : IBookRepository
 {
