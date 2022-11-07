@@ -23,7 +23,7 @@ public class BooksController : ControllerBase
     public async Task<ActionResult<List<GetBookWithIdDto>>> GetBooks()
     {
         var books = await _bookService.GetBooks();
-        return Ok(_mapper.Map<IEnumerable<GetBookDto>>(books));
+        return Ok(_mapper.Map<IEnumerable<GetBookWithIdDto>>(books));
     }
 
     [HttpGet("{bookId}", Name = "GetBookById")]
