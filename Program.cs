@@ -57,11 +57,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Variables:SigningKey").Value)),
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Variables:SigningKey").Value)),
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration.GetSection("Variables:Issuer").Value,
+            ValidIssuer = builder.Configuration.GetSection("Variables:Issuer").Value.ToString(),
             ValidateAudience = true,
-            ValidAudience = builder.Configuration.GetSection("Variables:Audience").Value
+            ValidAudience = builder.Configuration.GetSection("Variables:Audience").Value.ToString()
         };
     });
 
