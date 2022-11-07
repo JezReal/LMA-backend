@@ -1,21 +1,38 @@
+using LMA_backend.Data;
 using LMA_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMA_backend.Auth.Repositories;
 
 public class AuthRepository : IAuthRepository
 {
-    public Task<Credential?> GetCredentialByEmailAddress(string emailAddress)
+    private readonly LmaContext _lmaContext;
+
+    public AuthRepository(LmaContext lmaContext)
     {
-        throw new NotImplementedException();
+        _lmaContext = lmaContext;
     }
 
-    public Task<Credential> Registeruser(Credential credential)
+    public async Task<Credential?> GetCredentialByEmailAddress(string emailAddress)
     {
-        throw new NotImplementedException();
+        return await _lmaContext.Credentials.FirstOrDefaultAsync(credential => credential.EmailAddress == emailAddress);
+    }
+
+    public async Task<Credential> RegisterUser(Credential credential)
+    {
+        if (credential == null)
+        {
+            throw new ArgumentNullException(nameof(credential));
+        }
+
+        _lmaContext.Credentials.Add(credential);
+        await _lmaContext.SaveChangesAsync();
+
+        return credential;
     }
 
     public bool SaveChanges()
     {
-        throw new NotImplementedException();
+        return _lmaContext.SaveChanges() >= 0;
     }
 }

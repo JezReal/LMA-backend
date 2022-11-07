@@ -7,5 +7,5 @@ public interface IAuthRepository
 {
     bool SaveChanges();
     Task<Credential?> GetCredentialByEmailAddress(string emailAddress);
-    Task<Credential> Registeruser(Credential credential);
+    Task<Credential> RegisterUser(Credential credential);
 }

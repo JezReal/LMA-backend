@@ -10,6 +10,7 @@ public class Credential
 
     [Required] 
     public string EmailAddress { get; set; } = string.Empty;
+
     [Required] 
-    public byte[] Password { get; set; } = Array.Empty<Byte>();
+    public string Password { get; set; } = string.Empty;
 }

@@ -1,15 +1,17 @@
 using System.Net;
-using LMA_backend.Exceptions;
-using LMA_backend.Data;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
+using System.Text;
+using LMA_backend.Auth.Repositories;
+using LMA_backend.Auth.Services;
 using LMA_backend.Books.Repositories;
 using LMA_backend.Books.Services;
-using Microsoft.OpenApi.Models;
+using LMA_backend.Data;
+using LMA_backend.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
 builder.Services.AddDbContext<LmaContext>(options =>
 {
@@ -39,6 +39,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen(options =>
 {

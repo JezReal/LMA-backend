@@ -1,10 +1,11 @@
 using LMA_backend.Auth.Dtos;
 using LMA_backend.Models;
 
-namespace LMA_backend.Services.Auth;
+namespace LMA_backend.Auth.Services;
 
 public interface IAuthService
 {
-    Task<Credential?> GetCredentialByEmailAddress(string emailAddress);
-    Task<Credential> Registeruser(RegisterDto registerDto);
+    Task<RegisterDto?> GetCredentialByEmailAddress(string emailAddress);
+    Task<Credential> RegisterUser(RegisterDto registerDto);
+    Task Login(LoginDto loginDto);
 }
