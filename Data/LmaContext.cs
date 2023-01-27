@@ -9,6 +9,6 @@ public class LmaContext : DbContext
     {
     }
 
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Credential> Credentials { get; set; }
+    public DbSet<Book> Books { get; set; } = null!;
+    public DbSet<Credential> Credentials { get; set; } = null!;
 }
