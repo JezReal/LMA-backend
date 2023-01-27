@@ -3,6 +3,7 @@ using LMA_backend.Auth.Dtos;
 using LMA_backend.Auth.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace LMA_backend.Auth.Controllers;
 
@@ -28,7 +29,10 @@ public class AuthController : ControllerBase
     [HttpPost("login"), AllowAnonymous]
     public async Task<ActionResult> Login(LoginDto loginDto)
     {
-        await _authService.Login(loginDto);
+        var token = await _authService.Login(loginDto);
+
+        HttpContext.Response.Headers.Add(HeaderNames.Authorization, token);
+       
         return Ok();
     }
 }

@@ -7,5 +7,5 @@ public interface IAuthService
 {
     Task<RegisterDto?> GetCredentialByEmailAddress(string emailAddress);
     Task<Credential> RegisterUser(RegisterDto registerDto);
-    Task Login(LoginDto loginDto);
+    Task<String> Login(LoginDto loginDto);
 }

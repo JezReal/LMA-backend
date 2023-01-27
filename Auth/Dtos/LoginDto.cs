@@ -5,7 +5,7 @@ namespace LMA_backend.Auth.Dtos;
 public class LoginDto
 {
     [Required]
-    public string EmailAddress = string.Empty;
+    public string EmailAddress { get; set; } = string.Empty;
     [Required]
-    public string Password = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

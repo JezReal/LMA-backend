@@ -1,12 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
+using System.Text;
 using AutoMapper;
-using JWT.Algorithms;
-using JWT.Builder;
 using LMA_backend.Auth.Dtos;
 using LMA_backend.Auth.Repositories;
 using LMA_backend.Exceptions;
 using LMA_backend.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LMA_backend.Auth.Services;
 
@@ -30,7 +30,7 @@ public class AuthService : IAuthService
 
     public async Task<Credential> RegisterUser(RegisterDto registerDto)
     {
-        var account = _authRepository.GetCredentialByEmailAddress(registerDto.EmailAddress)?.Result;
+        var account = await _authRepository.GetCredentialByEmailAddress(registerDto.EmailAddress);
 
         if (account != null)
         {
@@ -44,9 +44,9 @@ public class AuthService : IAuthService
         return await _authRepository.RegisterUser(credential);
     }
 
-    public Task Login(LoginDto loginDto)
+    public async Task<String> Login(LoginDto loginDto)
     {
-        var account = _authRepository.GetCredentialByEmailAddress(loginDto.EmailAddress)?.Result;
+        var account = await _authRepository.GetCredentialByEmailAddress(loginDto.EmailAddress);
 
         if (account == null)
         {
@@ -55,43 +55,38 @@ public class AuthService : IAuthService
 
         var hashedPassword = account.Password;
 
-        if (BCrypt.Net.BCrypt.Verify(loginDto.Password, hashedPassword))
+        if (Bcrypt.Verify(loginDto.Password, hashedPassword))
         {
-            CreateAccessToken();
+            return CreateAccessToken(account.EmailAddress);
         }
         else
         {
             throw new AuthenticationException("Invalid credentials");
         }
-
-        return Task.CompletedTask;
     }
 
     private string HashPassword(string password)
     {
-        return BCrypt.Net.BCrypt.HashPassword(password);
+        return Bcrypt.HashPassword(password);
     }
 
-    private void CreateAccessToken()
+    private string CreateAccessToken(string emailAddress)
     {
-        var privateKeyString = _configuration.GetSection("Variables:PrivateKey").Value;
-        var privateKey = Convert.FromBase64String(privateKeyString);
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Variables:SigningKey").Value));
+        var claims = new List<Claim> {
+            new Claim (ClaimTypes.Email, emailAddress)
+        };
 
-        var publicKeyString = _configuration.GetSection("Variables:PublicKey").Value;
-        var publicKey = Convert.FromBase64String(publicKeyString);
+        var token = new JwtSecurityToken(
+            issuer: _configuration.GetSection("Variables:Issuer").Value,
+            audience: _configuration.GetSection("Variables:Audience").Value,
+            expires: DateTime.Now.AddMinutes(5),
+            claims: claims,
+            signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+        );
 
-        using RSA rsaPrivateKey = RSA.Create();
-        rsaPrivateKey.ImportRSAPrivateKey(privateKey, out _);
+        var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-        using RSA rsaPublicKey = RSA.Create();
-        rsaPublicKey.ImportRSAPublicKey(publicKey, out _);
-
-        var token = JwtBuilder.Create()
-                        .WithAlgorithm(new RS512Algorithm(rsaPublicKey, rsaPrivateKey))
-                        .AddClaim("exp", DateTime.Now.AddMinutes(5))
-                        .AddClaim("helli", "hello")
-                        .Encode();
-
-        Console.WriteLine(token);
+        return encodedToken;
     }
 }
