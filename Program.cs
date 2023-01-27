@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using Yoh.Text.Json.NamingPolicies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,8 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
