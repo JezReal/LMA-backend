@@ -86,7 +86,7 @@ app.UseExceptionHandler(errorApp =>
 
         if (error is ResourceNotFoundException)
         {
-            context.Response.StatusCode = (int) HttpStatusCode.NotFound;
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             await context.Response.WriteAsJsonAsync(new
             {
                 Message = error.Message
@@ -95,7 +95,7 @@ app.UseExceptionHandler(errorApp =>
 
         if (error is BadRequestException)
         {
-            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             await context.Response.WriteAsJsonAsync(new
             {
                 Message = error.Message
