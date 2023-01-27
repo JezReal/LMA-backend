@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Serialization;
+using Yoh.Text.Json.NamingPolicies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +28,8 @@ builder.Services.AddDbContext<LmaContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.ContractResolver = new DefaultContractResolver
-    {
-        NamingStrategy = new SnakeCaseNamingStrategy()
-    };
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.PropertyNamingPolicy   = JsonNamingPolicies.SnakeCaseLower;
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
